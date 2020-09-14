@@ -1,0 +1,449 @@
+Script started on Fri 17 Jan 2020 01:22:19 PM EST
+]0;patel55@alpha: ~/Desktop/lab1[01;32mpatel55@alpha[00m:[01;34m~/Desktop/lab1[00m$ ls -l
+total 22
+-rw-r--r-- 1 patel55 temp  883 Jan 17 02:23 Book.class
+-rw-r--r-- 1 patel55 temp  939 Jan 17 00:42 Book.java
+-rw-r--r-- 1 patel55 temp  897 Jan 17 02:23 GiftCard.class
+-rw-r--r-- 1 patel55 temp  975 Jan 17 00:42 GiftCard.java
+-rw-r--r-- 1 patel55 temp  691 Jan 17 02:23 Item.class
+-rw-r--r-- 1 patel55 temp 1051 Jan 16 20:00 Item.java
+-rw-r--r-- 1 patel55 temp    0 Jan 17 13:22 myscriptfile.txt
+-rw-r--r-- 1 patel55 temp 2595 Jan 17 02:23 ShoppingCartApp.class
+-rw-r--r-- 1 patel55 temp 3223 Jan 17 01:46 ShoppingCartApp.java
+-rw-r--r-- 1 patel55 temp 1046 Jan 17 02:23 ShoppingCart.class
+-rw-r--r-- 1 patel55 temp 1245 Jan 16 20:28 ShoppingCart.java
+]0;patel55@alpha: ~/Desktop/lab1[01;32mpatel55@alpha[00m:[01;34m~/Desktop/lab1[00m$ cat 8.java[K[K[K[K[K[K&[K*.java
+package lab1;
+
+/**
+ * The Book class extends the Item class and inherits the properties of the super class with required modification 
+ * @author sheshan
+ * @version 1.0
+ */
+public class Book extends Item{
+	
+	String author_name;		//Varaible stores the author name of the book
+	String title;			//Variable stores the title of the book
+	
+	/**
+	 * Constructer of the class used to assign the values of the price, title and author name
+	 * @param price
+	 * @param title
+	 * @param author_name
+	 */
+	Book(int price, String title, String author_name)
+	{
+		this.price = price;
+		this.title = title;
+		this.author_name = author_name;
+	}
+	
+	/**
+	 * display() method used to display the details of the book 
+	 */
+	void display()
+	{
+		System.out.println("\nBook :");
+		System.out.println("Id\t\t\tPrice\t\t\tTitle\t\t\tAuthor_Name");
+		System.out.println(id+"\t\t\t"+price+"\t\t\t"+title+"\t\t\t"+author_name);
+	}
+}
+package lab1;
+
+/**
+ * The GiftCard class extends the Item class and inherits the properties of the super class with required modification
+ * @author sheshan
+ * @version 1.0
+ */
+public class GiftCard extends Item{
+
+	String description;		//Varaible stores the description of the giftcard
+	String colour;			//Variable stores the colour of the giftcard
+	
+	/**
+	 * Constructer of the class used to assign the values of the price, description and colour
+	 * @param price
+	 * @param description
+	 * @param colour
+	 */
+	GiftCard(int price, String description, String colour)
+	{
+		this.price = price;
+		this.description = description;
+		this.colour = colour;
+	}
+	
+	/**
+	 * display() method used to display the details of the giftcard  
+	 */
+	void display()
+	{
+		System.out.println("\nGiftCard :");
+		System.out.println("Id\t\t\tPrice\t\t\tDescription\t\t\tColour");
+		System.out.println(id+"\t\t\t"+price+"\t\t\t"+description+"\t\t\t"+colour);
+	}
+}
+package lab1;
+
+/**
+ * The Item class is the abstract class that implements the Comparable interface.
+ * @author sheshan
+ * @version 1.0
+ */
+public abstract class Item implements Comparable<Item>{
+
+	static int increment=0;		//Used as a counter of id
+	int id;						//Unique identification of items 
+	int price;					//Price of the items
+	
+	/**
+	 * Class constructor used for increasing counter
+	 */
+	Item()
+	{
+		increment+=1;
+		id=increment;
+	}
+	
+	/**
+	 * Abstract method of the class for displaying items
+	 */
+	abstract void display();
+	
+	/**
+	 * compareTo() method of the Comparable interface is used to compare the current object with the specified object  
+	 * if current object > specified object, returns positive value  
+	 * if current object < specified object, returns negative value
+	 * if current object = specified object, returns zero
+	 * @param item
+	 */
+	public int compareTo(Item item)
+	{
+		if(price==item.price)
+			return 0;
+		else if(price>item.price)
+			return 1;
+		else 
+			return -1;
+	}
+}
+package lab1;
+
+/**
+ * This is the starting point of the program. It is the shopping cart UI where user can select the desire item and add it to the cart to buy.     
+ * @author sheshan
+ * @version 1.0
+ */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * The ShoppingCartApp class is the class containing the main method that initialize the program. 
+ */
+public class ShoppingCartApp {
+	
+/**
+ * main() method is the very first method to run in the program
+ * @param args
+ */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int p1,p2;				
+		Item i1,i2,i3,i4,i5,i6;		
+		
+		ShoppingCart s1 = new ShoppingCart();		
+		
+		i1 = new Book(200,"core java","sheshan");
+		i2 = new Book(300,"adv java","vinay");	
+		i3 = new Book(150,"adv algo","sunny");
+		i4 = new GiftCard(250,"30$ off","red");
+		i5 = new GiftCard(100,"20$ off","green");
+		i6 = new GiftCard(400,"350$ off","white");
+		
+		List<Item> ls= new ArrayList<Item>();
+		ls.add(i1);
+		ls.add(i2);
+		ls.add(i3);
+		ls.add(i4);
+		ls.add(i5);
+		ls.add(i6);
+		
+		Collections.sort(ls);		/*As the Item class implements Comparable interface, list of the objects of the Item class are sorted automatically 
+										by using Collections.sort() method and objects are sorted in the natural order of variable 'price' defined by 
+										CompareTo method in Item class*/
+		
+		System.out.println("Menu for Shoppinp"); 					
+		System.out.println("1. Display Items and Add to Cart");
+		System.out.println("2. Display Items in Shopping Cart");
+		System.out.println("3. Exit");
+		System.out.println("\nEnter Choice: ");
+		
+		Scanner s = new Scanner(System.in);
+		p1= s.nextInt();										//user requested value
+		
+		while(p1!=3)
+		{
+			switch(p1)
+			{
+				case 1: System.out.println("\nList of Items(Sorted by Price) :");
+						for(Item item:ls)
+						{  
+							item.display();						//method used to display items to user
+						}  
+						System.out.println("Choose item id to add in cart: or enter 0 to exit to main menu");
+						p2= s.nextInt();
+						while(p2!=0)
+						{
+							for(int i=0;i<Item.increment;i++)
+							{
+								if((ls.get(i).id)==p2)
+								{
+									s1.insert_inCart(ls.get(i));		//inserting items to cart using insert_inCart() method
+									System.out.println("Item added");
+									break;
+								}
+								else if(i==Item.increment-1)
+								{
+									System.out.println("Invalid Input");
+								}
+							}
+							System.out.println("\nChoose another id or enter 0 to exit to main menu");
+							p2=s.nextInt();
+						}
+						break;
+						
+				case 2: s1.display_cart(); 			// display cart items using display_cart() method
+						break;
+						
+				default: System.out.println("Invalid Input");
+			}
+			System.out.println("\nMenu for Shoppinp");
+			System.out.println("1. Display Items and Add to Cart");
+			System.out.println("2. Display Items in Shopping Cart");
+			System.out.println("3. Exit");
+			System.out.println("\nEnter Choice: ");
+			p1= s.nextInt();
+		}
+	System.out.println("Good Bye");					
+	System.exit(0);								// system turn off
+	}
+}
+package lab1;
+
+/**
+ * The ShoppingCart class includes the variables and methods used to store and view the items in the shopping cart 
+ * @author sheshan
+ * @version 1.0
+ */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ShoppingCart {
+	
+	List<Item> list = new ArrayList<Item>();		//ArrayList object is created and used for calling add() method of the list to store items in the cart  
+	
+	/**
+	 * insert_inCart() method shows the operation of adding items to cart 
+	 * @param item
+	 */
+	void insert_inCart(Item item)
+	{
+		list.add(item);
+	}
+	
+	/**
+	 * display_cart() method contains the functions which is sorting and displaying the list
+	 */
+	void display_cart()
+	{
+		System.out.println("\nItems in the Cart :");
+		Collections.sort(list);		  /*As the Item class implements Comparable interface, list of the objects of the Item class are sorted automatically 
+										by using Collections.sort() method and objects are sorted in the natural order of variable 'price' defined by 
+										CompareTo method in Item class*/
+		for(Item i1:list)					
+		{  
+			i1.display();								// to display the items added in the shopping cart, sorted by price
+		}  
+	}
+}
+]0;patel55@alpha: ~/Desktop/lab1[01;32mpatel55@alpha[00m:[01;34m~/Desktop/lab1[00m$ javac lab[K[K[K[K[K[K[K[K[Kcd ..
+]0;patel55@alpha: ~/Desktop[01;32mpatel55@alpha[00m:[01;34m~/Desktop[00m$ javac lab1/*/[K.java
+]0;patel55@alpha: ~/Desktop[01;32mpatel55@alpha[00m:[01;34m~/Desktop[00m$ jaa[Kva lab1[C.*
+Error: Could not find or load main class lab1.*
+]0;patel55@alpha: ~/Desktop[01;32mpatel55@alpha[00m:[01;34m~/Desktop[00m$ java [K[K[K[K[Kcd [K 
+]0;patel55@alpha: ~[01;32mpatel55@alpha[00m:[01;34m~[00m$ cd 
+.cache/    .dbus/     Downloads/ Music/     Public/    Videos/    
+.config/   Desktop/   .gnupg/    .nx/       .qt/       
+.cups/     Documents/ .local/    Pictures/  Templates/ 
+]0;patel55@alpha: ~[01;32mpatel55@alpha[00m:[01;34m~[00m$ cd 
+.cache/    .dbus/     Downloads/ Music/     Public/    Videos/    
+.config/   Desktop/   .gnupg/    .nx/       .qt/       
+.cups/     Documents/ .local/    Pictures/  Templates/ 
+]0;patel55@alpha: ~[01;32mpatel55@alpha[00m:[01;34m~[00m$ cd dez[Ksktop/
+bash: cd: desktop/: No such file or directory
+]0;patel55@alpha: ~[01;32mpatel55@alpha[00m:[01;34m~[00m$ cd Destopktop[C[C[C/
+]0;patel55@alpha: ~/Desktop[01;32mpatel55@alpha[00m:[01;34m~/Desktop[00m$ cd lab1/
+]0;patel55@alpha: ~/Desktop/lab1[01;32mpatel55@alpha[00m:[01;34m~/Desktop/lab1[00m$ java Shoppiing[K[K[KngCartApp
+Error: Could not find or load main class ShoppingCartApp
+]0;patel55@alpha: ~/Desktop/lab1[01;32mpatel55@alpha[00m:[01;34m~/Desktop/lab1[00m$ java [K[K[K[K[Kjava [K[K[K[K[Kjava lab1/=[K[K[K1.ShoppingAppjava[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kcd ..
+]0;patel55@alpha: ~/Desktop[01;32mpatel55@alpha[00m:[01;34m~/Desktop[00m$ java lab1/*[KShoppingCartApp [K
+Menu for Shoppinp
+1. Display Items and Add to Cart
+2. Display Items in Shopping Cart
+3. Exit
+
+Enter Choice: 
+1
+
+List of Items(Sorted by Price) :
+
+GiftCard :
+Id			Price			Description			Colour
+5			100			20$ off			green
+
+Book :
+Id			Price			Title			Author_Name
+3			150			adv algo			sunny
+
+Book :
+Id			Price			Title			Author_Name
+1			200			core java			sheshan
+
+GiftCard :
+Id			Price			Description			Colour
+4			250			30$ off			red
+
+Book :
+Id			Price			Title			Author_Name
+2			300			adv java			vinay
+
+GiftCard :
+Id			Price			Description			Colour
+6			400			350$ off			white
+Choose item id to add in cart: or enter 0 to exit to main menu
+44444444444444              2
+Item added
+
+Choose another id or enter 0 to exit to main menu
+3
+Item added
+
+Choose another id or enter 0 to exit to main menu
+4
+Item added
+
+Choose another id or enter 0 to exit to main menu
+1
+Item added
+
+Choose another id or enter 0 to exit to main menu
+6
+Item added
+
+Choose another id or enter 0 to exit to main menu
+5
+Item added
+
+Choose another id or enter 0 to exit to main menu
+56
+Invalid Input
+
+Choose another id or enter 0 to exit to main menu
+352
+Invalid Input
+
+Choose another id or enter 0 to exit to main menu
+0
+
+Menu for Shoppinp
+1. Display Items and Add to Cart
+2. Display Items in Shopping Cart
+3. Exit
+
+Enter Choice: 
+55
+Invalid Input
+
+Menu for Shoppinp
+1. Display Items and Add to Cart
+2. Display Items in Shopping Cart
+3. Exit
+
+Enter Choice: 
+1
+
+List of Items(Sorted by Price) :
+
+GiftCard :
+Id			Price			Description			Colour
+5			100			20$ off			green
+
+Book :
+Id			Price			Title			Author_Name
+3			150			adv algo			sunny
+
+Book :
+Id			Price			Title			Author_Name
+1			200			core java			sheshan
+
+GiftCard :
+Id			Price			Description			Colour
+4			250			30$ off			red
+
+Book :
+Id			Price			Title			Author_Name
+2			300			adv java			vinay
+
+GiftCard :
+Id			Price			Description			Colour
+6			400			350$ off			white
+Choose item id to add in cart: or enter 0 to exit to main menu
+0
+
+Menu for Shoppinp
+1. Display Items and Add to Cart
+2. Display Items in Shopping Cart
+3. Exit
+
+Enter Choice: 
+2
+
+Items in the Cart :
+
+GiftCard :
+Id			Price			Description			Colour
+5			100			20$ off			green
+
+Book :
+Id			Price			Title			Author_Name
+3			150			adv algo			sunny
+
+Book :
+Id			Price			Title			Author_Name
+1			200			core java			sheshan
+
+GiftCard :
+Id			Price			Description			Colour
+4			250			30$ off			red
+
+Book :
+Id			Price			Title			Author_Name
+2			300			adv java			vinay
+
+GiftCard :
+Id			Price			Description			Colour
+6			400			350$ off			white
+
+Menu for Shoppinp
+1. Display Items and Add to Cart
+2. Display Items in Shopping Cart
+3. Exit
+
+Enter Choice: 
+1 3
+Good Bye
+]0;patel55@alpha: ~/Desktop[01;32mpatel55@alpha[00m:[01;34m~/Desktop[00m$ exit
